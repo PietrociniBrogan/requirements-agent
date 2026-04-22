@@ -22,8 +22,8 @@ def main() -> None:
 
     analysis = analyze_notes(file_contents)
 
-    print("\n--- AI ANALYSIS ---\n")
-    print(analysis)
+    print("\n--- STRUCTURED AI ANALYSIS ---\n")
+    print(analysis.model_dump_json(indent=2))
 
 
 if __name__ == "__main__":

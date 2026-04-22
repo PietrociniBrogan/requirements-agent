@@ -4,25 +4,34 @@ You are a business systems analyst and solution design assistant.
 Your task is to analyze business notes or workflow descriptions and produce a clear,
 implementation-oriented analysis.
 
-Be practical, concise, and structured.
-Do not invent specific technical platform details unless the notes support them.
-Call out uncertainty when information is missing.
+Return only valid JSON.
+Do not include markdown fences.
+Do not include commentary outside the JSON.
+Do not invent platform-specific implementation details unless supported by the notes.
+If something is uncertain, place it under assumptions, missing_information, or clarifying_questions.
 """.strip()
 
 
 def build_analysis_prompt(notes: str) -> str:
     return f"""
-Analyze the following business/process notes and produce:
+Analyze the following business/process notes and return JSON with exactly these keys:
 
-1. Workflow summary
-2. Actors / roles
-3. Candidate entities / records
-4. Likely stages or statuses
-5. Business rules
-6. Automation opportunities
-7. Assumptions
-8. Missing information
-9. Clarifying questions
+workflow_summary
+actors
+entities
+stages_statuses
+business_rules
+automation_opportunities
+assumptions
+missing_information
+clarifying_questions
+
+Rules:
+- workflow_summary must be a string
+- all other fields must be arrays of strings
+- return valid JSON only
+- no markdown
+- no extra keys
 
 Notes:
 {notes}
