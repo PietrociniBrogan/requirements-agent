@@ -4,7 +4,10 @@ from openai import RateLimitError
 
 from requirements_agent.config import Config
 from requirements_agent.llm.client import get_openai_client
-from requirements_agent.llm.prompts import SYSTEM_PROMPT, build_analysis_prompt
+from requirements_agent.llm.prompts import (
+    ANALYSIS_SYSTEM_PROMPT,
+    build_analysis_prompt,
+)
 from requirements_agent.models.requirements import RequirementAnalysis
 
 
@@ -18,7 +21,7 @@ def analyze_notes(notes: str) -> RequirementAnalysis:
     try:
         response = client.responses.create(
             model=Config.MODEL_NAME,
-            instructions=SYSTEM_PROMPT,
+            instructions=ANALYSIS_SYSTEM_PROMPT,
             input=prompt,
         )
     except RateLimitError as exc:
