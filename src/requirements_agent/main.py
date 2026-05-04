@@ -3,12 +3,18 @@ from pathlib import Path
 from requirements_agent.config import Config, validate_config
 from requirements_agent.services.analyzer import analyze_notes
 from requirements_agent.services.clarifier import collect_clarification_answers
+from requirements_agent.services.exporter import (
+    refined_analysis_to_markdown,
+    write_json,
+    write_markdown,
+)
 from requirements_agent.services.ingest import read_input_file
 from requirements_agent.services.refiner import refine_analysis
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT_PATH = PROJECT_ROOT / "sample_data" / "inputs" / "meeting_notes_01.txt"
+OUTPUT_DIR = PROJECT_ROOT / "outputs"
 
 
 def main() -> None:
@@ -27,6 +33,12 @@ def main() -> None:
     print("\n--- INITIAL STRUCTURED ANALYSIS ---\n")
     print(initial_analysis.model_dump_json(indent=2))
 
+    initial_output_path = write_json(
+        initial_analysis,
+        OUTPUT_DIR / "initial_analysis.json",
+    )
+    print(f"\nSaved initial analysis to: {initial_output_path}")
+
     clarification_answers = collect_clarification_answers(
         initial_analysis,
         max_questions=3,
@@ -44,6 +56,19 @@ def main() -> None:
 
     print("\n--- REFINED ANALYSIS ---\n")
     print(refined_analysis.model_dump_json(indent=2))
+
+    refined_json_path = write_json(
+        refined_analysis,
+        OUTPUT_DIR / "refined_analysis.json",
+    )
+
+    refined_markdown_path = write_markdown(
+        refined_analysis_to_markdown(refined_analysis),
+        OUTPUT_DIR / "refined_analysis.md",
+    )
+
+    print(f"\nSaved refined JSON to: {refined_json_path}")
+    print(f"Saved refined Markdown to: {refined_markdown_path}")
 
 
 if __name__ == "__main__":
