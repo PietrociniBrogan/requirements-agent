@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from requirements_agent.cli import parse_args, resolve_project_path
 from requirements_agent.config import Config, validate_config
 from requirements_agent.services.analyzer import analyze_notes
 from requirements_agent.services.clarifier import collect_clarification_answers
@@ -13,17 +14,21 @@ from requirements_agent.services.refiner import refine_analysis
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_INPUT_PATH = PROJECT_ROOT / "sample_data" / "inputs" / "meeting_notes_01.txt"
-OUTPUT_DIR = PROJECT_ROOT / "outputs"
 
 
 def main() -> None:
+    args = parse_args()
     validate_config()
+
+    input_path = resolve_project_path(PROJECT_ROOT, args.input)
+    output_dir = resolve_project_path(PROJECT_ROOT, args.output_dir)
 
     print("Project setup is working.")
     print(f"Model: {Config.MODEL_NAME}")
+    print(f"Input file: {input_path}")
+    print(f"Output directory: {output_dir}")
 
-    file_contents = read_input_file(str(DEFAULT_INPUT_PATH))
+    file_contents = read_input_file(str(input_path))
 
     print("\n--- INPUT FILE CONTENTS ---\n")
     print(file_contents)
@@ -35,13 +40,13 @@ def main() -> None:
 
     initial_output_path = write_json(
         initial_analysis,
-        OUTPUT_DIR / "initial_analysis.json",
+        output_dir / "initial_analysis.json",
     )
     print(f"\nSaved initial analysis to: {initial_output_path}")
 
     clarification_answers = collect_clarification_answers(
         initial_analysis,
-        max_questions=3,
+        max_questions=args.max_questions,
     )
 
     if not clarification_answers:
@@ -59,12 +64,12 @@ def main() -> None:
 
     refined_json_path = write_json(
         refined_analysis,
-        OUTPUT_DIR / "refined_analysis.json",
+        output_dir / "refined_analysis.json",
     )
 
     refined_markdown_path = write_markdown(
         refined_analysis_to_markdown(refined_analysis),
-        OUTPUT_DIR / "refined_analysis.md",
+        output_dir / "refined_analysis.md",
     )
 
     print(f"\nSaved refined JSON to: {refined_json_path}")

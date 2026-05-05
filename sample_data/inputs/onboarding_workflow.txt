@@ -1,0 +1,20 @@
+The HR team discussed improving the onboarding process for new employees.
+
+Current process:
+- A recruiter marks a candidate as hired.
+- HR sends the new hire a welcome email and collects required documents.
+- IT creates system accounts and assigns hardware.
+- The hiring manager prepares a first-week schedule.
+- HR confirms that all onboarding tasks are complete.
+
+Pain points:
+- Tasks are tracked across email and spreadsheets.
+- IT is sometimes notified late.
+- Managers do not always know when onboarding tasks are incomplete.
+- Leadership wants visibility into onboarding status by department.
+
+Potential requirements mentioned:
+- A centralized onboarding tracker
+- Task assignments for HR, IT, and hiring managers
+- Notifications when tasks are overdue
+- Dashboard for onboarding status and bottlenecks
