@@ -1,0 +1,21 @@
+The team discussed building a workflow tracking system for internal request approvals.
+
+Current process:
+- Requests are submitted by employees through email.
+- A coordinator reviews the request for completeness.
+- If information is missing, the request is sent back to the submitter.
+- Once complete, the request goes to a manager for approval.
+- Approved requests are sent to operations for fulfillment.
+- Operations marks the request as completed when work is done.
+
+Pain points:
+- No centralized tracking
+- Status updates are inconsistent
+- Requests get delayed when required information is missing
+- Leadership has no visibility into bottlenecks
+
+Potential requirements mentioned:
+- A form for request submission
+- Status tracking by stage
+- Ability to send notifications when action is required
+- Dashboard for leadership
