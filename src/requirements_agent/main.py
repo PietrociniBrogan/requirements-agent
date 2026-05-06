@@ -23,7 +23,7 @@ def main() -> None:
     input_path = resolve_project_path(PROJECT_ROOT, args.input)
     output_dir = resolve_project_path(PROJECT_ROOT, args.output_dir)
 
-    print("Project setup is working.")
+    print("Requirements Agent")
     print(f"Model: {Config.MODEL_NAME}")
     print(f"Input file: {input_path}")
     print(f"Output directory: {output_dir}")
